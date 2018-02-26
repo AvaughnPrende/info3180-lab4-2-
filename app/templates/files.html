@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
 
 {% block main%}
-<ul>
-    {% for image in images %}
-    <li>
-        <img src = "{{url_for('static',filename = 'uploads/' + image)}}" height = '200' width = '200'/>
-    </li>
-    {% endfor %}
-</ul>
+
+<div class = 'wrapper'>
+    <ul>
+        {% for image in images %}
+        <li>
+            <div class = 'grid-item'>
+                <img src = "{{url_for('static',filename = 'uploads/' + image)}}" height = '200px' width = '200px'/>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
 
 {% endblock %}

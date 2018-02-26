@@ -1,3 +1,23 @@
 body {
     padding-top: 5rem;
+    background-color: #4ABDAC;
+}
+
+.wrapper {
+    margin:auto;
+    width: 700px;
+    height:auto;
+}
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    display: inline-block;
+    vertical-align: top;
+}
+
+img{
+    padding : 5px;
 }
