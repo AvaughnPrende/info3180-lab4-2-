@@ -10,10 +10,27 @@ from flask import render_template, request, redirect, url_for, flash, session, a
 from werkzeug.utils import secure_filename
 from forms import UploadForm
 
+def allowed_file(filename):
+    return filename.endswith(('.png','.jpg'))
+
+
+def get_uploaded_images():
+    list_of_files = []
+    for root,subdir,files in list(os.walk('app/static/uploads')):
+        for file in files:
+            list_of_files.append(file)
+
+    images = [file for file in list_of_files if allowed_file(file)]
+    return images
 
 ###
 # Routing for your application.
 ###
+
+@app.route('/files')
+def files():
+    """Render website's files page"""
+    return render_template('files.html',files = get_uploaded_images())
 
 @app.route('/')
 def home():
@@ -40,11 +57,17 @@ def upload():
     # Validate file upload on submit
     if request.method == 'POST':
         # Get file data and save to your uploads folder
+        
         file = form.upload.data
         filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
-        flash('File Saved', 'success')
-        return redirect(url_for('home'))
+        
+        if not allowed_file(filename):
+            flash('File Not Saved -- Images Only','danger')
+            return redirect(url_for('upload'))
+        else:
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+            flash('File Saved', 'success')
+            return redirect(url_for('home'))
 
     return render_template('upload.html',form = form)
 
