@@ -30,7 +30,10 @@ def get_uploaded_images():
 @app.route('/files')
 def files():
     """Render website's files page"""
-    return render_template('files.html',files = get_uploaded_images())
+    if not session.get('logged_in'):
+        abort(401)
+    else:
+        return render_template('files.html',images = get_uploaded_images())
 
 @app.route('/')
 def home():
@@ -41,7 +44,7 @@ def home():
 @app.route('/about/')
 def about():
     """Render the website's about page."""
-    return render_template('about.html', name="Mary Jane")
+    return render_template('about.html', name="Avaughn Prendergast")
 
 
 @app.route('/upload', methods=['POST', 'GET'])
